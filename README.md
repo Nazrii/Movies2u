@@ -2,7 +2,7 @@
 
 ### Movies2u 
 Movies2u allows user to view, add, delete movie.
-Code files are available on master branch
+Code files are available on __master branch__
 
 Below are the rest api exposed for this system:
 
