@@ -4,11 +4,13 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+/**
+ * Service class which returns data related function from repository
+ */
 @Service
 public class MovieService {
 
@@ -19,10 +21,19 @@ public class MovieService {
         this.movieRepository = movieRepository;
     }
 
+    /**
+     * Get all movies from repository
+     * @return List<Movie>
+     */
     public List<Movie> getAllMovies() {
         return movieRepository.findAll();
     }
 
+    /**
+     * Get movie by id from repository
+     * @param movieId movie id
+     * @return Movie object movie
+     */
     public Movie getMovieById(Long movieId) {
         Optional<Movie> movie = movieRepository.findById(movieId);
         if (movie.isPresent()) {
@@ -32,10 +43,19 @@ public class MovieService {
         }
     }
 
+    /**
+     * Get list of movies by a list of ids from repository
+     * @param movieIds list of movie ids
+     * @return list of movies
+     */
     public List<Movie> getMoviesByIds(List<Long> movieIds) {
         return movieRepository.findByMovieIdIn(movieIds);
     }
 
+    /**
+     * Add new movie to repository
+     * @param movie movie
+     */
     public void addNewMovie(Movie movie) {
         Optional<Movie> movieOptional = movieRepository.findMovieByTitle(movie.getTitle());
         if (movieOptional.isPresent()) {
@@ -44,6 +64,10 @@ public class MovieService {
         movieRepository.save(movie);
     }
 
+    /**
+     * Delete a movie from repository
+     * @param movieId movie id
+     */
     public void deleteMovie(Long movieId) {
         boolean exists = movieRepository.existsById(movieId);
         if (!exists) {
@@ -52,6 +76,11 @@ public class MovieService {
         movieRepository.deleteById(movieId);
     }
 
+    /**
+     * Update a movie to the repository
+     * @param movieId movie id
+     * @param movie movie
+     */
     public void updateMovie(Long movieId, Movie movie) {
         Movie dbMovie = movieRepository.findById(movieId)
                 .orElseThrow(() -> new IllegalStateException(

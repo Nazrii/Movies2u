@@ -34,7 +34,7 @@ public class MovieController {
      * Retrieve a movie via a movieId
      *
      * Sample URL = http://localhost:8080/api/movie/1
-     * @param movieId
+     * @param movieId movie id
      * @return Movie
      */
     @GetMapping(path = "{movieId}")
@@ -46,8 +46,8 @@ public class MovieController {
      * Retrieve a list of movies via a list of movie ids
      *
      * Sample URL = http://localhost:8080/api/movie/movies?movieIds=1,2
-     * @param movieIds
-     * @return
+     * @param movieIds list of movie ids
+     * @return list of movies
      */
     @GetMapping(path = "movies")
     public List<Movie> getMoviesByIds(@RequestParam List<Long> movieIds) {
@@ -63,22 +63,24 @@ public class MovieController {
      *     "category": "Romance",
      *     "starRating": 2.0
      *     }
-     * @param movie
+     * @param movie movie
      */
     @PostMapping
-    public void createNewMovie(@RequestBody Movie movie) {
+    public ResponseEntity createNewMovie(@RequestBody Movie movie) {
         movieService.addNewMovie(movie);
+        return new ResponseEntity("Movie has been successfully created", true);
     }
 
     /**
      * Delete a movie via a movie id
      *
      * Sample URL = http://localhost:8080/api/movie/delete/3
-     * @param movieId
+     * @param movieId movie id
      */
     @DeleteMapping(path = "delete/{movieId}")
-    public void deleteMovie(@PathVariable("movieId") Long movieId) {
+    public ResponseEntity deleteMovie(@PathVariable("movieId") Long movieId) {
         movieService.deleteMovie(movieId);
+        return new ResponseEntity("Movie has been successfully deleted", true);
     }
 
     /**
@@ -89,12 +91,13 @@ public class MovieController {
      *     "title":"Project Power",
      *     "starRating":4
      *     }
-     * @param movieId
-     * @param movie
+     * @param movieId movie id
+     * @param movie movie
      */
     @PutMapping(path = "edit/{movieId}")
-    public void updateMovie(@PathVariable("movieId") Long movieId,
+    public ResponseEntity updateMovie(@PathVariable("movieId") Long movieId,
                             @RequestBody(required = false) Movie movie) {
         movieService.updateMovie(movieId, movie);
+        return new ResponseEntity("Movie has been successfully updated", true);
     }
 }
